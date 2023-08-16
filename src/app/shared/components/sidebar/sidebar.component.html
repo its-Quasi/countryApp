@@ -1,0 +1,11 @@
+<h2>Busqueda de Paises</h2>
+<hr>
+<ul class="list-group">
+  <li
+  *ngFor="let item of ['home', 'about', 'contact'];"
+    routerLink="{{item}}"
+    routerLinkActive="active"
+    class="list-group-item">
+    {{item}} Page
+  </li>
+</ul>
