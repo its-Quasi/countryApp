@@ -10,17 +10,10 @@ const routes : Routes = [
     component : HomePageComponent
   },
   {
-    path : 'about',
-    component : AboutPageComponent
+    path : 'countries',
+    loadChildren : () => import('./countries/countries.module').then(m => m.CountriesModule)
   },
-  {
-    path : 'contact',
-    component : ContactPageComponent
-  },
-  {
-    path : '**',
-    redirectTo : 'home'
-  }
+
 ]
 
 @NgModule({
