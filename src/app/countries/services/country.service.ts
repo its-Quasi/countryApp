@@ -20,28 +20,24 @@ export class CountryService {
       )
   }
 
+  private getCountriesRequest(url : string) : Observable<Country[]> {
+    return this.http.get<Country[]>(url).pipe(
+      catchError(() => of([]))
+    )
+  }
+
   searchCapital(capital : string) : Observable<Country[]> {
     const url = this.urlBase + capital
-    console.log(url)
-    return this.http.get<Country[]>(url)
-      .pipe(
-        catchError( () => of([]) )
-      )
+    return this.getCountriesRequest(url)
   }
 
   searchCountry(country : string) : Observable<Country[]> {
     const url = this.urlBase + country
-    return this.http.get<Country[]>(url)
-      .pipe(
-        catchError( () => of([]) )
-      )
+    return this.getCountriesRequest(url)
   }
 
   searchRegion(region: string) : Observable<Country[]> {
     const url = this.urlBase + region
-    return this.http.get<Country[]>(url)
-      .pipe(
-        catchError( () => of([]) )
-      )
+    return this.getCountriesRequest(url)
   }
 }
