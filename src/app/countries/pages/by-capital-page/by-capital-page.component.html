@@ -2,13 +2,13 @@
   Por Capital
 </h2>
 <hr>
-
+<shared-loading-spinner *ngIf="isLoading"/>
 <div class="row">
   <div class="col">
     <!--searchbox-->
     <shared-search-box
       [placeholder]="capitalPlaceholder"
-      (onValue)="searchByCapital($event)">
+      (onDebounce)="searchByCapital($event)">
     </shared-search-box>
   </div>
 </div>
