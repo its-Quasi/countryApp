@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CountryService } from '../../services/country.service';
 import { Country } from '../../interfaces/country';
 
@@ -8,10 +8,17 @@ import { Country } from '../../interfaces/country';
   styles: [
   ]
 })
-export class ByCountryPageComponent {
+export class ByCountryPageComponent implements OnInit {
   public placeholder = 'Search by Country...'
   public countries : Country[] = []
+  public initialValue : string = ''
   constructor(private countryService : CountryService){}
+
+  ngOnInit(): void {
+    const {key, countries} = this.countryService.store.bycountry
+    this.initialValue = key === '' ? '' : key.split('/')[1]
+    this.countries = countries
+  }
 
   searchByCountry(term: string) : void {
     this.countryService.searchCountry('name/' + term)
