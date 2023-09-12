@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, catchError, delay, map, of, tap } from 'rxjs';
 import { Country } from '../interfaces/country';
@@ -22,7 +22,7 @@ export class CountryService {
   }
 
   constructor(private http: HttpClient) {
-    console.log('countries service init')
+    this.loadFromLocalStorage()
   }
 
   searchCountryByCode(code : string) : Observable<Country | null> {
@@ -45,7 +45,8 @@ export class CountryService {
     return this.getCountriesRequest(url).pipe(
       tap(
         (countries :  Country[]) => this.store.bycapital = { key : capital , countries }
-      )
+      ),
+      tap( () => this.saveToLocalStorage() )
     )
   }
 
@@ -54,7 +55,8 @@ export class CountryService {
     return this.getCountriesRequest(url).pipe(
       tap(
         (countries :  Country[]) => this.store.bycountry = { key : country , countries }
-      )
+      ),
+      tap( () => this.saveToLocalStorage() )
     )
   }
 
@@ -63,7 +65,17 @@ export class CountryService {
     return this.getCountriesRequest(url).pipe(
       tap(
         (countries :  Country[]) => this.store.byregion = { key : region , countries }
-      )
+      ),
+      tap( () => this.saveToLocalStorage() )
     )
+  }
+
+  private saveToLocalStorage( ) {
+    localStorage.setItem('store' , JSON.stringify(this.store))
+  }
+
+  private loadFromLocalStorage() {
+    const cachedStore = localStorage.getItem('store')
+    if(cachedStore) this.store = JSON.parse(cachedStore)
   }
 }
